@@ -27,4 +27,14 @@ io.on("connection", socket => {
     socket.on("new_message", data => {
         io.sockets.emit("new_message", {username: socket.username, message: data.message})
     })
+
+    // listen for start typing
+    socket.on("start_typing", () => {
+        socket.broadcast.emit("start_typing", {username: socket.username})
+    })
+
+    // listen for stop typing
+    socket.on("stop_typing", () => {
+        socket.broadcast.emit("stop_typing")
+    })
 })

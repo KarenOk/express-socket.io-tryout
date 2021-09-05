@@ -7,7 +7,13 @@ const messageInput = document.querySelector("#message")
 const sendMessageBtn = document.querySelector("#send_message")
 
 const chatroom = document.querySelector("#chatroom")
+const feedback = document.querySelector("#feedback")
 
+// Client Event Listeners
+
+document.addEventListener("mousemove", () => {
+    socket.emit("stop_typing")
+})
 
 changeUsernameBtn.addEventListener("click", () => {
     username = usernameInput.value
@@ -20,6 +26,22 @@ sendMessageBtn.addEventListener("click", () => {
     messageInput.value = ""
 })
 
+messageInput.addEventListener("keypress", () => {
+    socket.emit("start_typing")
+})
+
+// Server Event Listeners
+
+
 socket.on("new_message", data => {
     chatroom.innerHTML += `<p class="message"> ${data.username}: ${data.message} </p>`
+})
+
+socket.on("start_typing", data => {
+    feedback.innerHTML= `<p> <i> ${data.username} is typing a message... </i> </p>`
+})
+
+socket.on("stop_typing", () => {
+    console.log("stopped")
+    feedback.innerHTML = ""
 })
