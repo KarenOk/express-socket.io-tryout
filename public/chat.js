@@ -17,7 +17,7 @@ document.addEventListener("mousemove", () => {
 
 changeUsernameBtn.addEventListener("click", () => {
     username = usernameInput.value
-    socket.emit("change_username", (username))
+    socket.emit("change_username", {username})
 })
 
 sendMessageBtn.addEventListener("click", () => {
