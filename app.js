@@ -14,4 +14,17 @@ const io = require("socket.io")(server);
 
 io.on("connection", socket => {
     console.log("New socket connection")
+
+    // set default username
+    socket.username = "Anonymous"
+
+    // listen for username change
+    socket.on("change_username", data => {
+        socket.username = data.username
+    })
+
+    // listen for new message
+    socket.on("new_message", data => {
+        io.sockets.emit("new_message", {username: socket.username, message: data.message})
+    })
 })
